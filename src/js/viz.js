@@ -1,0 +1,129 @@
+let geodata = 'data/lib.json';
+let pinByYearURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=0&single=true&output=csv';
+let pinByStatusURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1392819476&single=true&output=csv';
+let pinBySectorURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1110695519&single=true&output=csv';
+let pinByAdm2URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1804481883&single=true&output=csv';
+
+let geomData;
+
+let pinYear,
+    pinStatus,
+    pinSector,
+    pinAdm2,
+    filteredPinData;
+
+let yearFilter = "2021";
+
+let mapsvg, 
+    g,
+    projection;
+
+$( document ).ready(function() {
+
+  function getData() {
+    Promise.all([
+      d3.json(geodata),
+      d3.csv(pinByYearURL),
+      d3.csv(pinByStatusURL),
+      d3.csv(pinBySectorURL),
+      d3.csv(pinByAdm2URL)
+    ]).then(function(data){
+      geomData = topojson.feature(data[0], data[0].objects.geom);
+      
+      data[1].forEach(element => {
+        element['PiN'] = +element['PiN'];
+      });
+      pinYear = data[1];
+`     `
+      data[2].forEach(element => {
+        element['PiN'] = +element['PiN'];
+      });
+      pinStatus = d3.nest()
+      .key(function(d){ return d['Status']})
+      .key(function(d){ return d['Year']})
+      .rollup(function(v){ return d3.sum(v, function(d){ return d['PiN']})})
+      .entries(data[2]);
+
+      data[3].forEach(element => {
+        element['PiN'] = +element['PiN'];
+      });
+      pinSector = d3.nest()
+          .key(function(d){ return d['Sector']})
+          .key(function(d){ return d['Year']})
+          .rollup(function(v){ return d3.sum(v, function(d){ return d['PiN']})})
+          .entries(data[3]);
+      
+      console.log(pinStatus);
+      
+      data[4].forEach(element => {
+        element['PiN'] = +element['PiN'];
+      });
+      pinAdm2 = data[4];
+      
+      filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
+      
+      generatePINChart();
+      generateCategoryChart();
+      initiateMap();
+      choropleth();
+      generateClustersCharts();
+      
+      //remove loader and show vis
+      $('.loader').hide();
+      $('main, footer').css('opacity', 1);
+    });
+
+  } //getData
+
+
+  getData();
+  //initTracking();
+
+
+  function initiateMap() {
+    var width = $('#map').width();
+    var height = 450;
+    var mapScale = width*2.1;
+
+    projection = d3.geoMercator()
+      .center([20, 26])
+      .scale(mapScale)
+      .translate([width / 2, height / 2]);
+
+    var path = d3.geoPath().projection(projection);
+
+    mapsvg = d3.select('#map').append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    
+
+    g = mapsvg.append("g").attr('id', 'adm2')
+          .selectAll("path")
+          .data(geomData.features)
+          .enter()
+            .append("path")
+            .attr('d',path)
+            .attr('id', function(d){ 
+                return d.properties.ADM2_PCODE; 
+            })
+            .attr('fill', '#3b88c0')
+            .attr('name', function(d){
+                return d.properties.ADM2_EN;
+            })
+            .attr('stroke-width', 1)
+            .attr('stroke', '#7d868d');
+
+
+
+  } //initiateMap
+
+
+});
+
+$('#yearSelect').on('change', function(e){
+  yearFilter = $('#yearSelect').val();
+  filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
+  console.log(filteredPinData);
+  choropleth();
+});
