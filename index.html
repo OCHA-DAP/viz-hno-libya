@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>HNO Libya</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link rel='icon' type='image/png' href='https://data.humdata.org/images/icons/hdx.ico' />
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet'>
+      <!-- CSS only -->
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.11/c3.min.css"/>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://d3js.org/d3.v5.js"></script>
+      <!-- <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script> -->
+      <script src="https://d3js.org/topojson.v1.min.js"></script>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.11/c3.min.js"></script>
+     
+      
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+      <script src="https://d3-legend.susielu.com/d3-legend.min.js"></script>
+    <link href='css/styles.css' rel='stylesheet' />
+  </head>
+
+  <body>
+    <div class="loader">
+        <div class="sp sp-circle"></div>
+        Loading data...
+    </div>
+
+    <main>
+      <div class="container">
+        <!-- <div class="row">
+          <h2>LIBYA - HUMANITARIAN NEEDS OVERVIEW
+              <select name="year" id="yearSelect">
+                <option value="2021" selected>2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+              </select>
+          </h2>
+        </div> -->
+        <div class="row">
+          <div class="col-md-12">
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae, in eligendi sed rem, libero soluta magnam veritatis quaerat necessitatibus odio magni temporibus omnis autem voluptate 
+              laborum perspiciatis sunt cumque ad?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae, in eligendi sed rem, libero soluta magnam veritatis quaerat necessitatibus odio magni 
+            </p>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div>
+              <h5>Number of People in Need per year</h5>
+              <div id="idps"></div>
+            </div>
+
+            <div>
+              <h5>Number of People in Need per category</h5>
+              <div id="category"></div>
+            </div>
+
+          </div>
+          <div class="col-md-8">
+            <div>
+              <h5  class="pull-right">
+                Number of People in Need by Mantika
+                <select name="year" id="yearSelect">
+                  <option value="2021" selected>2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                </select>
+              </h5>
+
+            </div>
+            <div id="map"></div>
+          </div>
+        </div>
+        <div class="row" id="clusters">
+        </div>
+        <!-- container -->
+      </div> 
+    </main>
+
+    <footer>
+      <div class='logos'>
+        <div class='grid-container'>
+          <div class='col-12'>
+            <a href='https://www.unocha.org' target='_blank'>
+              <img height='30' src='assets/logo-ocha-gray.png'>
+            </a>
+            <a href='https://centre.humdata.org' target='_blank'>
+              <img height='38' src='assets/logo-centre-gray.png'>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script type='text/javascript' src='js/bundle.js'></script>
+  </body>
+</html>
