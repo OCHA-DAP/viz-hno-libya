@@ -1,11 +1,10 @@
 // window.$ = window.jQuery = require('jquery');
 let mainColor = ['#418FDE'];
 function generatePINChart(){
-    var xArr = ['x', 2018, 2019, 2020, 2021],
+    var xArr = ['x', '2018-01-01', '2019-01-01', '2020-01-01', '2021-01-01'],
         yArr = ['PiN'];
     
     pinYear.forEach(element => {
-        // xArr.push(element['Year']);
         yArr.push(element['PiN']);
     });
     c3.generate({
@@ -20,11 +19,11 @@ function generatePINChart(){
         },
         axis: { 
             x: {
-                // type: 'timeseries',
+                type: 'timeseries',
                 tick: {
                     centered: true,
                     outer: false,
-                    // format: '%Y'
+                    format: '%Y'
                 }
             },
             y: {
@@ -33,7 +32,7 @@ function generatePINChart(){
                     centered: true,
                     outer: false,
                     fit: true,
-                    count: 4,
+                    count: 3,
                     format: d3.format('.2s')
                 }
             }
@@ -41,7 +40,10 @@ function generatePINChart(){
         size: {
             height: 200
         },
-        padding: {left: 45}
+        padding: {left: 45, right:20},
+        legend: {
+            hide: true
+        }
     });
 
 } //generatePINChart
@@ -92,7 +94,7 @@ function generateCategoryChart(){
                     centered: true,
                     outer: false,
                     fit: true,
-                    count: 4,
+                    count: 3,
                     format: d3.format('.2s')
                 }
 
@@ -153,7 +155,7 @@ function generateClustersCharts(){
                         centered: true,
                         outer: false,
                         fit: true,
-                        count: 4,
+                        count: 3,
                         format: d3.format('.2s')
                     }
                 }
