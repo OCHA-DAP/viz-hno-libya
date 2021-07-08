@@ -19,6 +19,9 @@ main, .hide {
 main {
 	min-height: 93%;
 }
+#clusters {
+	margin-top: 15px;
+}
 
 h5 {
 	font-size: 16px;
@@ -125,14 +128,14 @@ img {
 	margin-bottom: 15px;
   }
   .chart-header {
-	  background-color: #418FDE;
+	  background-color:#E9F2FB;// #418FDE;
 	display: inline-block;
 	margin-bottom: 0;
 	padding: 15px;
 	width: 100%;
   }
   .chart-header h5 {
-	color: #FFF;
+	// color: #FFF;
 	margin-bottom: 0;
-	min-height: 35px;
+	// min-height: 35px;
   }
