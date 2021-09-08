@@ -3,14 +3,15 @@ let pinByYearURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTq
 let pinByStatusURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1392819476&single=true&output=csv';
 let pinBySectorURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1110695519&single=true&output=csv';
 let pinByAdm2URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1804481883&single=true&output=csv';
-
+let descriptionURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1031817710&single=true&output=csv';
 let geomData;
 
 let pinYear,
     pinStatus,
     pinSector,
     pinAdm2,
-    filteredPinData;
+    filteredPinData,
+    descriptionDoc;
 
 let yearFilter = "2021";
 
@@ -26,7 +27,8 @@ $( document ).ready(function() {
       d3.csv(pinByYearURL),
       d3.csv(pinByStatusURL),
       d3.csv(pinBySectorURL),
-      d3.csv(pinByAdm2URL)
+      d3.csv(pinByAdm2URL),
+      d3.csv(descriptionURL)
     ]).then(function(data){
       geomData = topojson.feature(data[0], data[0].objects.geom);
       
@@ -53,15 +55,15 @@ $( document ).ready(function() {
           .rollup(function(v){ return d3.sum(v, function(d){ return d['PiN']})})
           .entries(data[3]);
       
-      console.log(pinStatus);
       
       data[4].forEach(element => {
         element['PiN'] = +element['PiN'];
       });
       pinAdm2 = data[4];
-      
+      descriptionDoc = data[5][0];
       filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
       
+      generateDescription();
       generatePINChart();
       generateCategoryChart();
       initiateMap();
@@ -86,7 +88,7 @@ $( document ).ready(function() {
     var mapScale = width*2.1;
 
     projection = d3.geoMercator()
-      .center([20, 26])
+      .center([15, 26])
       .scale(mapScale)
       .translate([width / 2, height / 2]);
 
@@ -124,6 +126,5 @@ $( document ).ready(function() {
 $('#yearSelect').on('change', function(e){
   yearFilter = $('#yearSelect').val();
   filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
-  console.log(filteredPinData);
   choropleth();
 });

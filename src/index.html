@@ -35,38 +35,10 @@
 
     <main>
       <div class="container">
-        <!-- <div class="row">
-          <h2>LIBYA - HUMANITARIAN NEEDS OVERVIEW
-              <select name="year" id="yearSelect">
-                <option value="2021" selected>2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-              </select>
-          </h2>
-        </div> -->
         <div class="row">
-          <div class="col-md-12">
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae, in eligendi sed rem, libero soluta magnam veritatis quaerat necessitatibus odio magni temporibus omnis autem voluptate 
-              laborum perspiciatis sunt cumque ad?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae, in eligendi sed rem, libero soluta magnam veritatis quaerat necessitatibus odio magni 
-            </p>
-          </div>
-
+          <div class="col-md-12" id="description"><p></p></div>
         </div>
         <div class="row">
-          <div class="col-md-4">
-            <div>
-              <h5>Number of People in Need per year</h5>
-              <div id="idps"></div>
-            </div>
-
-            <div>
-              <h5>Number of People in Need per category</h5>
-              <div id="category"></div>
-            </div>
-
-          </div>
           <div class="col-md-8">
             <div>
               <h5  class="pull-right">
@@ -83,6 +55,23 @@
             <div id="map"></div>
             <p class="small">The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the United Nations.</p>
           </div>
+          <div class="col-md-4">
+            <div>
+              <h5>Number of People in Need by year</h5>
+              <div id="idps"></div>
+            </div>
+
+            <div>
+              <h5>Number of People in Need by population group</h5>
+              <div id="category"></div>
+            </div>
+
+          </div>
+
+        </div>
+        <hr>
+        <div>
+          <h5>People in Need by Sector</h5>
         </div>
         <div class="row" id="clusters">
         </div>
@@ -92,7 +81,7 @@
 
     <footer>
       <div class='logos'>
-        <div class='grid-container'>
+        <div class='container text-center'>
           <div class='col-12'>
             <a href='https://www.unocha.org' target='_blank'>
               <img height='30' src='assets/logo-ocha-gray.png'>

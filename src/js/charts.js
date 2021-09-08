@@ -1,4 +1,9 @@
 let mainColor = ['#418FDE'];
+
+function generateDescription(){
+    $('#description p').text(descriptionDoc['Description']);
+}//generateDescription
+
 function generatePINChart(){
     var xArr = ['x', '2018-01-01', '2019-01-01', '2020-01-01', '2021-01-01'],
         yArr = ['PiN'];
@@ -118,12 +123,12 @@ function generateClustersCharts(){
     
     var clusters = ['Education', 'Health', 'Protection', 'food_security', 'Shelter', 'WASH'];
     for (let i = 0; i < clusters.length; i++) {
-        // $('#clusters').append('<div class="col-md-4"><h5>'+clusters[i]+'</h5><div id="'+clusters[i]+'"></div></div>');
         var clusterName = (clusters[i] == "food_security" ? "Food Security" : 
                             clusters[i] == "Shelter" ? "Shelter & NFIs" : clusters[i]);
+        var iconName = (clusterName == 'WASH' ? 'humanitarianicons-Wash' : 'humanitarianicons-'+clusterName);
         
         $('#clusters').append('<div class="col-sm-6 col-md-4" id="indicator">' +
-        '<div class="chart-header"><h5>'+clusterName+'</h5></div>'+
+        '<div class="chart-header"><i class="humanitarianicons '+iconName+'"></i><h5>'+clusterName+'</h5></div>'+
         '<div class="chart-container"><div id="'+clusters[i]+'"></div></div></div>');
         var data,
             yearsArr = ['x'],
@@ -218,7 +223,7 @@ function choropleth(){
             .on('mousemove', function(d){
               var filtered = filteredPinData.filter(pt => pt.Mantika== d.properties.ADM2_EN);
               var txt = '<h6>'+d.properties.ADM2_EN+' ('+d.properties.ADM1_EN+')</h6>'+
-                  '<h6># PiN: '+filtered[0].PiN+'</h6>';
+                  '<h6># PiN: '+d3.format(",")(filtered[0].PiN)+'</h6>';
       
               showMapTooltip(d, maptip,txt);
             })
