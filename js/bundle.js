@@ -1,5 +1,10 @@
 // window.$ = window.jQuery = require('jquery');
 let mainColor = ['#418FDE'];
+
+function generateDescription(){
+    $('#description p').text(descriptionDoc['Description']);
+}//generateDescription
+
 function generatePINChart(){
     var xArr = ['x', '2018-01-01', '2019-01-01', '2020-01-01', '2021-01-01'],
         yArr = ['PiN'];
@@ -119,12 +124,12 @@ function generateClustersCharts(){
     
     var clusters = ['Education', 'Health', 'Protection', 'food_security', 'Shelter', 'WASH'];
     for (let i = 0; i < clusters.length; i++) {
-        // $('#clusters').append('<div class="col-md-4"><h5>'+clusters[i]+'</h5><div id="'+clusters[i]+'"></div></div>');
         var clusterName = (clusters[i] == "food_security" ? "Food Security" : 
                             clusters[i] == "Shelter" ? "Shelter & NFIs" : clusters[i]);
+        var iconName = (clusterName == 'WASH' ? 'humanitarianicons-Wash' : 'humanitarianicons-'+clusterName);
         
         $('#clusters').append('<div class="col-sm-6 col-md-4" id="indicator">' +
-        '<div class="chart-header"><h5>'+clusterName+'</h5></div>'+
+        '<div class="chart-header"><i class="humanitarianicons '+iconName+'"></i><h5>'+clusterName+'</h5></div>'+
         '<div class="chart-container"><div id="'+clusters[i]+'"></div></div></div>');
         var data,
             yearsArr = ['x'],
@@ -219,7 +224,7 @@ function choropleth(){
             .on('mousemove', function(d){
               var filtered = filteredPinData.filter(pt => pt.Mantika== d.properties.ADM2_EN);
               var txt = '<h6>'+d.properties.ADM2_EN+' ('+d.properties.ADM1_EN+')</h6>'+
-                  '<h6># PiN: '+filtered[0].PiN+'</h6>';
+                  '<h6># PiN: '+d3.format(",")(filtered[0].PiN)+'</h6>';
       
               showMapTooltip(d, maptip,txt);
             })
@@ -273,14 +278,15 @@ let pinByYearURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTq
 let pinByStatusURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1392819476&single=true&output=csv';
 let pinBySectorURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1110695519&single=true&output=csv';
 let pinByAdm2URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1804481883&single=true&output=csv';
-
+let descriptionURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTX0AO2XUkTqwQeTGjSNARG1JpxpXDXW0usQH7U3yn5QoEJi0zR6NITBLbnCQRrhui_qd_FAvdUTbWC/pub?gid=1031817710&single=true&output=csv';
 let geomData;
 
 let pinYear,
     pinStatus,
     pinSector,
     pinAdm2,
-    filteredPinData;
+    filteredPinData,
+    descriptionDoc;
 
 let yearFilter = "2021";
 
@@ -296,7 +302,8 @@ $( document ).ready(function() {
       d3.csv(pinByYearURL),
       d3.csv(pinByStatusURL),
       d3.csv(pinBySectorURL),
-      d3.csv(pinByAdm2URL)
+      d3.csv(pinByAdm2URL),
+      d3.csv(descriptionURL)
     ]).then(function(data){
       geomData = topojson.feature(data[0], data[0].objects.geom);
       
@@ -323,15 +330,15 @@ $( document ).ready(function() {
           .rollup(function(v){ return d3.sum(v, function(d){ return d['PiN']})})
           .entries(data[3]);
       
-      console.log(pinStatus);
       
       data[4].forEach(element => {
         element['PiN'] = +element['PiN'];
       });
       pinAdm2 = data[4];
-      
+      descriptionDoc = data[5][0];
       filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
       
+      generateDescription();
       generatePINChart();
       generateCategoryChart();
       initiateMap();
@@ -356,7 +363,7 @@ $( document ).ready(function() {
     var mapScale = width*2.1;
 
     projection = d3.geoMercator()
-      .center([20, 26])
+      .center([15, 26])
       .scale(mapScale)
       .translate([width / 2, height / 2]);
 
@@ -394,6 +401,5 @@ $( document ).ready(function() {
 $('#yearSelect').on('change', function(e){
   yearFilter = $('#yearSelect').val();
   filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
-  console.log(filteredPinData);
   choropleth();
 });

@@ -1,32 +1,33 @@
 @font-face {
-  font-family: 'Gotham-Bold';
+  font-family: "Gotham-Bold";
   src: url("../assets/fonts/Gotham-Bold.otf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
 @font-face {
-  font-family: 'Gotham-Book';
+  font-family: "Gotham-Book";
   src: url("../assets/fonts/Gotham-Book.otf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
 @font-face {
-  font-family: 'Gotham-Light';
+  font-family: "Gotham-Light";
   src: url("../assets/fonts/Gotham-Light.otf") format("truetype");
   font-weight: normal;
   font-style: normal; }
 
 @font-face {
-  font-family: 'Humanitarian-Icons-v02';
+  font-family: "Humanitarian-Icons-v02";
   src: url("../assets/fonts/Humanitarian-Icons-v02.eot?d5h7ar");
   src: url("../assets/fonts/Humanitarian-Icons-v02.eot?d5h7ar#iefix") format("embedded-opentype"), url("../assets/fonts/Humanitarian-Icons-v02.ttf?d5h7ar") format("truetype"), url("../assets/fonts/Humanitarian-Icons-v02.woff?d5h7ar") format("woff"), url("../assets/fonts/Humanitarian-Icons-v02.svg?d5h7ar#Humanitarian-Icons-v02") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block; }
 
-[class^="humanitarianicons-"], [class*=" humanitarianicons-"] {
+[class^="humanitarianicons-"],
+[class*=" humanitarianicons-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'Humanitarian-Icons-v02' !important;
+  font-family: "Humanitarian-Icons-v02" !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -1021,7 +1022,7 @@
 .humanitarianicons-Warning-Error:before {
   content: "\ea35"; }
 
-.humanitarianicons-Water-Sanitation-and-Hygiene:before {
+.humanitarianicons-Wash:before {
   content: "\ea36"; }
 
 .humanitarianicons-Water-source:before {
@@ -1068,16 +1069,18 @@
   to {
     transform: rotate(359deg); } }
 
-html, body {
+html,
+body {
   height: 100%; }
 
 body {
-  font-family: 'PT Sans', sans-serif;
+  font-family: "PT Sans", sans-serif;
   margin: 0;
   padding: 0;
   font-size: 14px; }
 
-main, .hide {
+main,
+.hide {
   opacity: 0; }
 
 main {
@@ -1086,12 +1089,16 @@ main {
 #clusters {
   margin-top: 15px; }
 
+#description {
+  padding-top: 10px;
+  padding-bottom: 10px; }
+
 h5 {
   font-size: 16px; }
 
 #selection {
-  background-color: #FFF;
-  border-color: #FFF;
+  background-color: #fff;
+  border-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   height: 34px;
@@ -1114,19 +1121,13 @@ h5 {
 
 footer {
   background-color: #353535;
-  color: #FFF;
+  color: #fff;
   padding: 20px 0 10px;
   opacity: 0; }
 
-img {
-  margin-right: 40px;
-  margin-bottom: 0;
-  vertical-align: top;
-  width: auto; }
-
 #legend {
-  background-color: #FFF;
-  right: 10px;
+  background-color: #fff;
+  left: 10px;
   color: #000;
   opacity: 0.8;
   bottom: 10px;
@@ -1147,7 +1148,7 @@ img {
 
 .d3-tip {
   padding: 10px;
-  background-color: #FFF;
+  background-color: #fff;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   border: 0px;
@@ -1172,11 +1173,25 @@ img {
   margin-bottom: 15px; }
 
 .chart-header {
-  background-color: #E9F2FB;
+  background-color: #e9f2fb;
   display: inline-block;
   margin-bottom: 0;
   padding: 15px;
   width: 100%; }
 
 .chart-header h5 {
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  padding-left: 25px; }
+
+.humanitarianicons {
+  color: #046bb5;
+  font-size: 24px;
+  left: 25px;
+  position: absolute;
+  top: 10px; }
+
+.logos img {
+  margin-right: 40px;
+  margin-bottom: 0;
+  vertical-align: top;
+  width: auto; }
