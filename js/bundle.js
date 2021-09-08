@@ -129,7 +129,7 @@ function generateClustersCharts(){
         var iconName = (clusterName == 'WASH' ? 'humanitarianicons-Wash' : 'humanitarianicons-'+clusterName);
         
         $('#clusters').append('<div class="col-sm-6 col-md-4" id="indicator">' +
-        '<div class="chart-header"><i class="humanitarianicons '+iconName+'"></i><h5>'+clusterName+'</h5></div>'+
+        '<div class="chart-header"><i class="humanitarianicons '+iconName+'"></i><h6>'+clusterName+'</h6></div>'+
         '<div class="chart-container"><div id="'+clusters[i]+'"></div></div></div>');
         var data,
             yearsArr = ['x'],

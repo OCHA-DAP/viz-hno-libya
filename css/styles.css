@@ -1089,9 +1089,14 @@ main {
 #clusters {
   margin-top: 15px; }
 
-#description {
-  padding-top: 10px;
-  padding-bottom: 10px; }
+#rightSide {
+  border-left: #000 1px; }
+
+.small {
+  font-style: italic; }
+
+.title {
+  color: #418fde; }
 
 h5 {
   font-size: 16px; }
@@ -1179,7 +1184,7 @@ footer {
   padding: 15px;
   width: 100%; }
 
-.chart-header h5 {
+.chart-header h6 {
   margin-bottom: 0;
   padding-left: 25px; }
 
