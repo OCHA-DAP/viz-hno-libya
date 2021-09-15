@@ -2,7 +2,9 @@
 let mainColor = ['#418FDE'];
 
 function generateDescription(){
-    $('#description p').text(descriptionDoc['Description']);
+    var text = descriptionDoc['Description'] + ' <a target="blank" href="https://data.humdata.org/dataset/libya-humanitarian-needs-overview">Access datasets on HDX. </a>'
+    // $('#description p').text(descriptionDoc['Description']);
+    $('#description p').html(text);
 }//generateDescription
 
 function generatePINChart(){
