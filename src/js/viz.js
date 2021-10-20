@@ -14,6 +14,7 @@ let pinYear,
     descriptionDoc;
 
 let yearFilter = "2021";
+let yearsRange = [];
 
 let mapsvg, 
     g,
@@ -34,9 +35,11 @@ $( document ).ready(function() {
       
       data[1].forEach(element => {
         element['PiN'] = +element['PiN'];
+        yearsRange.includes(element['Year']) ? '' : yearsRange.push(element['Year'])
       });
       pinYear = data[1];
-`     `
+      yearFilter = yearsRange[yearsRange.length -1]
+
       data[2].forEach(element => {
         element['PiN'] = +element['PiN'];
       });
@@ -63,6 +66,8 @@ $( document ).ready(function() {
       descriptionDoc = data[5][0];
       filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
       
+      generateTitle();
+      generateYearsSelection();
       generateDescription();
       generatePINChart();
       generateCategoryChart();

@@ -1,15 +1,33 @@
 let mainColor = ['#418FDE'];
 
+function generateTitle (){
+    var text = "Libya HNO Trends (" +yearsRange[0] + " – " +yearsRange[yearsRange.length -1]+ ")";
+    $('.title h2').html(text);
+}
 function generateDescription(){
     var text = descriptionDoc['Description'] + ' <a target="blank" href="https://data.humdata.org/dataset/libya-humanitarian-needs-overview">Access datasets on HDX. </a>'
     // $('#description p').text(descriptionDoc['Description']);
     $('#description p').html(text);
 }//generateDescription
 
+
+function generateYearsSelection(){
+    var options = "";
+    for (let index = yearsRange.length -1; index >= 0; index--) {
+        const element = yearsRange[index];
+        index == yearsRange.length -1 ? options += '<option value="' + element + '" selected>' + element + '</option>'  : 
+            options += '<option value="' + element + '">' + element + '</option>';
+    }
+    $('#yearSelect').append(options);
+}
+
 function generatePINChart(){
-    var xArr = ['x', '2018-01-01', '2019-01-01', '2020-01-01', '2021-01-01'],
+    var xArr = ['x' ];//, '2018-01-01', '2019-01-01', '2020-01-01', '2021-01-01'],
         yArr = ['PiN'];
-    
+    for (let index = 0; index < yearsRange.length; index++) {
+        const element = yearsRange[index] + '-01-01';
+        xArr.push(element)
+    }
     pinYear.forEach(element => {
         yArr.push(element['PiN']);
     });
@@ -33,12 +51,13 @@ function generatePINChart(){
                 }
             },
             y: {
+                min: 0,
                 show: true,
                 tick: {
                     centered: true,
                     outer: false,
                     fit: true,
-                    count: 3,
+                    // count: 3,
                     format: d3.format('.2s')
                 }
             }
@@ -57,7 +76,11 @@ function generatePINChart(){
 var stackClrs = ['#82B5E9','#418FDE','#1F69B3','#144372'];
 function generateCategoryChart(){
     var statusArr = ['IDPs', 'Refugees', 'Migrants', 'Returnees'];
-    var xArr = ['x', 2018, 2019, 2020, 2021],
+    var xArr = ['x'];//, 2018, 2019, 2020, 2021],
+    for (let index = 0; index < yearsRange.length; index++) {
+        const element = yearsRange[index];
+        xArr.push(element);
+    }
         idpsArr = ['IDPs'],
         refArr = ['Refugees'],
         migrantsArr = ['Migrants'],
@@ -100,7 +123,7 @@ function generateCategoryChart(){
                     centered: true,
                     outer: false,
                     fit: true,
-                    count: 3,
+                    // count: 3,
                     format: d3.format('.2s')
                 }
 
@@ -110,13 +133,6 @@ function generateCategoryChart(){
             height: 200
         },
         padding: {left:45},
-	    // tooltip: {
-	    // 	format: {
-	    // 		value: function(value){
-	    // 			return d3.format('d')(value)
-	    // 		}
-	    // 	}
-	    // }
     });
 } //generateCategoryChart
 
