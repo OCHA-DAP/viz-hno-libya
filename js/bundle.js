@@ -1,16 +1,34 @@
 // window.$ = window.jQuery = require('jquery');
 let mainColor = ['#418FDE'];
 
+function generateTitle (){
+    var text = "Libya HNO Trends (" +yearsRange[0] + " – " +yearsRange[yearsRange.length -1]+ ")";
+    $('.title h2').html(text);
+}
 function generateDescription(){
     var text = descriptionDoc['Description'] + ' <a target="blank" href="https://data.humdata.org/dataset/libya-humanitarian-needs-overview">Access datasets on HDX. </a>'
     // $('#description p').text(descriptionDoc['Description']);
     $('#description p').html(text);
 }//generateDescription
 
+
+function generateYearsSelection(){
+    var options = "";
+    for (let index = yearsRange.length -1; index >= 0; index--) {
+        const element = yearsRange[index];
+        index == yearsRange.length -1 ? options += '<option value="' + element + '" selected>' + element + '</option>'  : 
+            options += '<option value="' + element + '">' + element + '</option>';
+    }
+    $('#yearSelect').append(options);
+}
+
 function generatePINChart(){
-    var xArr = ['x', '2018-01-01', '2019-01-01', '2020-01-01', '2021-01-01'],
+    var xArr = ['x' ];//, '2018-01-01', '2019-01-01', '2020-01-01', '2021-01-01'],
         yArr = ['PiN'];
-    
+    for (let index = 0; index < yearsRange.length; index++) {
+        const element = yearsRange[index] + '-01-01';
+        xArr.push(element)
+    }
     pinYear.forEach(element => {
         yArr.push(element['PiN']);
     });
@@ -34,12 +52,13 @@ function generatePINChart(){
                 }
             },
             y: {
+                min: 0,
                 show: true,
                 tick: {
                     centered: true,
                     outer: false,
                     fit: true,
-                    count: 3,
+                    // count: 3,
                     format: d3.format('.2s')
                 }
             }
@@ -58,7 +77,11 @@ function generatePINChart(){
 var stackClrs = ['#82B5E9','#418FDE','#1F69B3','#144372'];
 function generateCategoryChart(){
     var statusArr = ['IDPs', 'Refugees', 'Migrants', 'Returnees'];
-    var xArr = ['x', 2018, 2019, 2020, 2021],
+    var xArr = ['x'];//, 2018, 2019, 2020, 2021],
+    for (let index = 0; index < yearsRange.length; index++) {
+        const element = yearsRange[index];
+        xArr.push(element);
+    }
         idpsArr = ['IDPs'],
         refArr = ['Refugees'],
         migrantsArr = ['Migrants'],
@@ -101,7 +124,7 @@ function generateCategoryChart(){
                     centered: true,
                     outer: false,
                     fit: true,
-                    count: 3,
+                    // count: 3,
                     format: d3.format('.2s')
                 }
 
@@ -111,13 +134,6 @@ function generateCategoryChart(){
             height: 200
         },
         padding: {left:45},
-	    // tooltip: {
-	    // 	format: {
-	    // 		value: function(value){
-	    // 			return d3.format('d')(value)
-	    // 		}
-	    // 	}
-	    // }
     });
 } //generateCategoryChart
 
@@ -187,7 +203,6 @@ var mapColorRange = ['#F8D8D3','#EFA497','#E56A54','#CD3A1F','#8B2715'];//['#C7E
 function choropleth(){
     // data = filteredPinData.filter(pt=>pt.Year=='2021')
     var max = d3.max(filteredPinData,function(d){ return d['PiN']});
-    console.log(max);
     var mapScale = d3.scaleQuantize()
     .domain([0, max])
     .range(mapColorRange);
@@ -291,6 +306,7 @@ let pinYear,
     descriptionDoc;
 
 let yearFilter = "2021";
+let yearsRange = [];
 
 let mapsvg, 
     g,
@@ -310,12 +326,14 @@ $( document ).ready(function() {
       geomData = topojson.feature(data[0], data[0].objects.geom);
       
       data[1].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
+        yearsRange.includes(element['Year']) ? '' : yearsRange.push(element['Year'])
       });
       pinYear = data[1];
-`     `
+      yearFilter = yearsRange[yearsRange.length -1]
+
       data[2].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
       });
       pinStatus = d3.nest()
       .key(function(d){ return d['Status']})
@@ -324,7 +342,7 @@ $( document ).ready(function() {
       .entries(data[2]);
 
       data[3].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
       });
       pinSector = d3.nest()
           .key(function(d){ return d['Sector']})
@@ -332,14 +350,15 @@ $( document ).ready(function() {
           .rollup(function(v){ return d3.sum(v, function(d){ return d['PiN']})})
           .entries(data[3]);
       
-      
       data[4].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
       });
       pinAdm2 = data[4];
       descriptionDoc = data[5][0];
       filteredPinData = pinAdm2.filter(d=>d.Year==yearFilter);
       
+      generateTitle();
+      generateYearsSelection();
       generateDescription();
       generatePINChart();
       generateCategoryChart();
