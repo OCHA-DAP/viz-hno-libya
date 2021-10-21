@@ -241,7 +241,7 @@ function choropleth(){
             .on('mousemove', function(d){
               var filtered = filteredPinData.filter(pt => pt.Mantika== d.properties.ADM2_EN);
               var txt = '<h6>'+d.properties.ADM2_EN+' ('+d.properties.ADM1_EN+')</h6>'+
-                  '<h6># PiN: '+d3.format(",")(filtered[0].PiN)+'</h6>';
+                  '<h6># PiN: '+d3.format(",.0f")(filtered[0].PiN)+'</h6>';
       
               showMapTooltip(d, maptip,txt);
             })
