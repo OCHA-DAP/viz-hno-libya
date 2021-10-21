@@ -34,14 +34,14 @@ $( document ).ready(function() {
       geomData = topojson.feature(data[0], data[0].objects.geom);
       
       data[1].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
         yearsRange.includes(element['Year']) ? '' : yearsRange.push(element['Year'])
       });
       pinYear = data[1];
       yearFilter = yearsRange[yearsRange.length -1]
 
       data[2].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
       });
       pinStatus = d3.nest()
       .key(function(d){ return d['Status']})
@@ -50,7 +50,7 @@ $( document ).ready(function() {
       .entries(data[2]);
 
       data[3].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
       });
       pinSector = d3.nest()
           .key(function(d){ return d['Sector']})
@@ -58,9 +58,8 @@ $( document ).ready(function() {
           .rollup(function(v){ return d3.sum(v, function(d){ return d['PiN']})})
           .entries(data[3]);
       
-      
       data[4].forEach(element => {
-        element['PiN'] = +element['PiN'];
+        element['PiN'] = parseFloat(element['PiN'].replace(/,/g, ''));
       });
       pinAdm2 = data[4];
       descriptionDoc = data[5][0];

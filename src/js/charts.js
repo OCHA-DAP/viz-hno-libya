@@ -202,7 +202,6 @@ var mapColorRange = ['#F8D8D3','#EFA497','#E56A54','#CD3A1F','#8B2715'];//['#C7E
 function choropleth(){
     // data = filteredPinData.filter(pt=>pt.Year=='2021')
     var max = d3.max(filteredPinData,function(d){ return d['PiN']});
-    console.log(max);
     var mapScale = d3.scaleQuantize()
     .domain([0, max])
     .range(mapColorRange);
